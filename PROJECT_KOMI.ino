@@ -99,9 +99,12 @@ int LOG_NO = 1;
 #include <esp_now.h>
 #include <WiFi.h>
 
+// ESP NOW 
+uint8_t SLAVE_ESP_MAC[] = { 0x94, 0x54, 0xC5, 0xB5, 0xC6, 0x8C };
+
 // HEAD ASSEMBLY SERVOS
-Servo HEAD_1; // TOP
-Servo HEAD_2; // BOTTOM
+Servo HEAD_1; // UP DOWN SERVO
+Servo HEAD_2; // LEFT RIGHT SERVO
 
 // DISPLAY EYES
 #define LEFT_SCREEN_WIDTH 128
@@ -126,6 +129,10 @@ LiquidCrystal_I2C STATUS_DISPLAY(0x27, 16,2);
 // I2C
 const int SDA_PIN = 13;
 const int SCL_PIN = 15;
+
+// HEAD ASSEMBLY SERVOS
+const int HEAD_1_PIN = 14; // UP DOWN SERVO
+const int HEAD_2_PIN = 2; // LEFT RIGHT SERVO
 
 //  ========================
 //      LOGGING & ERRORS
@@ -193,13 +200,21 @@ void OnDataRecv(const esp_now_recv_info_t *recvInfo, const uint8_t *incomingData
   if(COMMAND.equals("LIVE")) {
     STARTUP_CHECK_COMPLETE = true;
   }
+  else {
+    if(COMMAND.equals("REMOTE")) {
+      REMOTE_MODE();
+    }
+    else {
+      ERR("COMMAND NOT RECOGNIZED: " + COMMAND);
+    }
+  }
 
   delay(10);
 }
 
 void TRANSMIT(String COMMAND) {
   PREVIOUS_COMMAND = COMMAND;
-  esp_now_send(peerMac, (uint8_t *)COMMAND.c_str(), COMMAND.length() + 1);
+  esp_now_send(SLAVE_ESP_MAC, (uint8_t *)COMMAND.c_str(), COMMAND.length() + 1);
   delay(10);
 }
 
@@ -285,7 +300,7 @@ void setup() {
 
   esp_now_register_send_cb(OnDataSent);
   esp_now_peer_info_t peerInfo = {};
-  memcpy(peerInfo.peer_addr, peerMac, 6);
+  memcpy(peerInfo.peer_addr, SLAVE_ESP_MAC, 6);
   peerInfo.channel = 0;
   peerInfo.encrypt = false;
 
@@ -297,6 +312,12 @@ void setup() {
   esp_now_register_recv_cb(OnDataRecv);
   PRINT_LOG("ESP NOW READY");
   delay(100);
+
+//===============
+
+  // REMOTE INTERRUPT
+  attachInterrupt(digitalPinToInterrupt(2), activateMotor, FALLING);
+
 
 //===============
 
@@ -334,12 +355,20 @@ void setup() {
 
 //===============
 
+  // SERVOS
+  HEAD_1.attach(HEAD_1_PIN); // UP DOWN SERVO
+  HEAD_2.attach(HEAD_2_PIN); // LEFT RIGHT SERVO
+
+//===============
+
   // SLAVE CHECK
   while(!STARTUP_CHECK_COMPLETE) {
-    TRANSMIT("LIVE");
+    TRANSMIT("TEST");
     delay(3000);
   }
   PRINT_LOG("SLAVE READY");
+
+  // 
   STARTUP_SEQUENCE();
 }
 
