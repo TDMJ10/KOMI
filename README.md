@@ -11,7 +11,7 @@ Komi is an autonomous robot that has basic object recognition abilities.
 Implementing Base level Code For Device Operations And Communication
 
 # PROJECT TO DO:
-1: Create MASTER Code
+1: Create MASTER Code + Implement Proper Edge Impulse Model
 
 2: Create SLAVE Code
 
@@ -36,3 +36,8 @@ Implementing Base level Code For Device Operations And Communication
 
 > Add additional attachments to aid safety demonstrations
   > Will likely just be mock water pumps (nothing that can actually put out a fire sadly).
+
+# Special Thanks
+Al Faridul Karim for introducing and teaching me basic Edge Impulse Object Recognition, only through that am I getting to do stuff like this.
+
+HUGE THANKS MAN
