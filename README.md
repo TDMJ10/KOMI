@@ -13,7 +13,7 @@ Komi is not that advanced (very very basic honestly with lots of roundabout meth
 
 # PROJECT STATUS:
 Implementing Base level Code For Device Operations And Communication
-> Current Budget: 8610 (Maximum:10000) 
+> Current Budget: 12650 (Maximum:15000) 
 > Budget does not include body and frame costs
 
 # PROJECT TO DO:
