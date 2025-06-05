@@ -1,39 +1,32 @@
 # PROJECT KOMI
-Made for the BRAC University Health & Safety Club
-
 Made by Naim Iftekhar Rahman
 
 Student of BRAC University (24201190), Computer Science & Engineering Department.
+
 # ABOUT
-Komi is an autonomous robot that has basic object recognition abilities for general humans (if possible also fires). Komi uses Computer Vision Through An ESP32 AI Thinker OV2640 Camera running Edge Impulse's YOLO Model. Komi possesses the ability to act on its own to greet humans it sees, waving to the closest person it sees and  roam around on its own. Komi is planned to have a remote control and video feed.
+Komi is an autonomous robot that has basic object recognition abilities for general humans. Komi uses Computer Vision Through An ESP32 AI Thinker OV2640 Camera running Edge Impulse's YOLO Model. Komi possesses the ability to act on its own to greet humans it sees, waving to the closest person it sees and  roam around on its own. Komi is planned to have a remote control and video feed.
 
 Komi is not that advanced (very very basic honestly with lots of roundabout methods to do things) don't expect too much from it. Theres DEFINITELY better ways to do this project, I am just working through what i do know as of the time of working on this.
 
 
 
 # PROJECT STATUS:
-Currently working on slave transmission and control, MASTER and SLAVE circuit diagrams complete
-> Current Budget: 12650 (Maximum:15000) 
-> Budget does not include body and frame costs
+Revising Design. Circuitry Updated (Revision 3).
 
 # PROJECT TO DO:
-1: Create MASTER Code (65%) + Implement Proper Edge Impulse Model + 
+1: Create MASTER Code (45%) - MASTER Changed
 
-2: Create SLAVE Code
+2: Prepare Edge Impulse Camera
 
 3: Create Access Point and Camera Website
 
-4: Complete Wiring Prototype
+4: Create Head Assembly
 
-5: Create Head Assembly
+5: Create Arms Assembly
 
-6: Create Arms Assembly
+6: Create Remote
 
-7: Create Body
-
-8: Create Remote
-
-8: Testing
+7: Testing
 
 # PROJECT AIMS:
 >> Make Komi able to recognise humans and look at them directly.
@@ -44,14 +37,23 @@ Currently working on slave transmission and control, MASTER and SLAVE circuit di
 
 >> Have Komi be able to feed any device that connects to it its secondary camera information (not object detection camera) (too advanced for ESP32 and outside of my skillset for now)
 
-> Add a speaker system to Komi so that its controller can speak through komi
+> Add a speaker system to Komi so that its controller can speak through Komi
 
-> Have Komi be able to detect fires outside of edge impulse object detection on its own through a flame and gas sensor. 
-
-> Add additional attachments to aid safety demonstrations
-  > Will likely just be tiny hobbiest water pumps (nothing that can actually put out a fire sadly since anything strong would definitely be out of budget). (as of current only idea I have)
 
 # Credit and Special Thanks
-A huge thanks to Al Faridul Karim for introducing and teaching me basic Edge Impulse Object Recognition, only through that am I getting to do stuff like this.
+
+Al Faridul Karim
+Naseef Nazrul Islam
+Muntasir Mubeen
+
+Respect to Anonimosity
+Kamikazen 
+Life Gamer
+Duck1906
+TheStrikerZ10
+
 
 Edge Impulse
+Cirkit Designer
+AutoDesk Fusion
+BRAC University
