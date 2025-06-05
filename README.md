@@ -40,51 +40,16 @@ Revising Design. Circuitry Updated (Revision 3).
 > Add a speaker system to Komi so that its controller can speak through Komi
 
 # PROJECT RECREATION INFORMATION
-PARTS REQUIRED:
+PARTS REQUIRED: (In-depth parts list inside files)
 
 KOMI:
 
-ESP32 DEVKIT-C MICROCONTROLLER      x2
+REMOTE:
 
-ESP32 AI THINKER MICROCONTROLLER    x2
-
-PCF8574 GPIO EXPANDER                         x2
-
-XL6016 BUCK CONVERTER                         x2
-
-L298N MOTOR DRIVER                            x2
-
-N20 GEAR MOTOR (12V)                          x4
-
-ULN2003 STEPPER MOTOR DRIVER                  x2
-
-28BYJ-48 STEPPER MOTOR (5V)                   x2
-
-TCA9584A I2C MULTIPLEXER                      x1 - This can be optional if you have oleds of different I2C Addresses - I didn't
-
-MG90S METAL GEAR SERVO                        x1 - You can use a SG90 if you want 
-
-SG90  PLASTIC GEAR SERVO                      x1
-
-PLASTIC DUAL HEAD SERVO ASSEMBLY              x1
-
-16x2 LCD DISPLAY                              x1
-
-SSD1306 0.96" OLED                            x2
-
-LITHIUM POLYMER BATTERY (3S 11.1/12.6V)       x1
-
-T CONNECTOR                                   x1
-
-PROTOTYPING BOARD                             x2
+WATCHDOG:
 
 TOOLS USED:
 
-Soldering Iron
-
-60/40 Solder (Lead Warning)
-
-Wire Strippers
 
 
 
