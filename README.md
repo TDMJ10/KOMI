@@ -47,14 +47,12 @@ CIRCUITRY DIAGRAM
 # Credit and Special Thanks
 
 Al Faridul Karim
+
 Naseef Nazrul Islam
+
 Muntasir Mubeen
 
-Respect to Anonimosity
-Kamikazen 
-Life Gamer
-Duck1906
-TheStrikerZ10
+Respect To Their Anonimosity: Kami, Striker, Duck, Nag
 
 
 Edge Impulse
