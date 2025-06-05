@@ -10,10 +10,10 @@ Komi is not that advanced (very very basic honestly with lots of roundabout meth
 
 
 
-# PROJECT STATUS:
+# PROJECT UPDATES
 Revising Design. Circuitry Updated (Revision 3).
 
-# PROJECT TO DO:
+# PROJECT TO DO
 1: Create MASTER Code (45%) - MASTER Changed
 
 2: Prepare Edge Impulse Camera
@@ -28,7 +28,7 @@ Revising Design. Circuitry Updated (Revision 3).
 
 7: Testing
 
-# PROJECT AIMS:
+# PROJECT AIMS
 >> Make Komi able to recognise humans and look at them directly.
 
 >> Make Komi able to recognise a waving hand and wave back.
@@ -38,6 +38,9 @@ Revising Design. Circuitry Updated (Revision 3).
 >> Have Komi be able to feed any device that connects to it its secondary camera information (not object detection camera) (too advanced for ESP32 and outside of my skillset for now)
 
 > Add a speaker system to Komi so that its controller can speak through Komi
+
+# PROJECT INFORMATION
+![FULL CONTROL ASSEMBLY REVISION 3](https://github.com/user-attachments/assets/4aacbd8c-4cd4-45e5-b0bc-bc89469a0235)
 
 
 # Credit and Special Thanks
