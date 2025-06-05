@@ -40,6 +40,7 @@ Revising Design. Circuitry Updated (Revision 3).
 > Add a speaker system to Komi so that its controller can speak through Komi
 
 # PROJECT INFORMATION
+CIRCUITRY DIAGRAM
 ![FULL CONTROL ASSEMBLY REVISION 3](https://github.com/user-attachments/assets/4aacbd8c-4cd4-45e5-b0bc-bc89469a0235)
 
 
