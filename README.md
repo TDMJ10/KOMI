@@ -18,15 +18,15 @@ Revising Design. Circuitry Updated (Revision 3).
 
 2: Prepare Edge Impulse Camera
 
-3: Create Access Point and Camera Website
+>3: Create Access Point and Camera Website
 
 4: Create Head Assembly
 
-5: Create Arms Assembly
+>5: Create Arms Assembly
 
-6: Create Remote
+>6: Create Remote
 
-7: Testing
+>7: Testing
 
 # PROJECT AIMS
 >> Make Komi able to recognise humans and look at them directly.
