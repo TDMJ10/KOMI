@@ -71,4 +71,6 @@ Respect To Their Anonimosity: Kami, Striker, Duck, Nag
 Edge Impulse
 Cirkit Designer
 AutoDesk Fusion
+Arduino
+Random Nerd Tutorials
 BRAC University
