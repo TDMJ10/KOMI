@@ -1,8 +1,6 @@
 # PROJECT KOMI
 Made by Naim Iftekhar Rahman
 
-Student of BRAC University (24201190), Computer Science & Engineering Department.
-
 # ABOUT
 Komi is an autonomous robot that has basic object recognition abilities for general humans. Komi uses Computer Vision Through An ESP32 AI Thinker OV2640 Camera running Edge Impulse's YOLO Model. Komi possesses the ability to act on its own to greet humans it sees, waving to the closest person it sees and  roam around on its own. Komi is planned to have a remote control and video feed.
 
@@ -46,8 +44,6 @@ KOMI:
 
 REMOTE:
 
-WATCHDOG:
-
 TOOLS USED:
 
 
@@ -73,4 +69,4 @@ Cirkit Designer
 AutoDesk Fusion
 Arduino
 Random Nerd Tutorials
-BRAC University
+ROBU
