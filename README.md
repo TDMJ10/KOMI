@@ -1,6 +1,8 @@
 # PROJECT KOMI
 Made by Naim Iftekhar Rahman
 
+Student of BRAC University, Computer Science & Engineering Department.
+
 # ABOUT
 Komi is an autonomous robot that has basic object recognition abilities for general humans. Komi uses Computer Vision Through An ESP32 AI Thinker OV2640 Camera running Edge Impulse's YOLO Model. Komi possesses the ability to act on its own to greet humans it sees, waving to the closest person it sees and  roam around on its own. Komi is planned to have a remote control and video feed.
 
@@ -9,10 +11,10 @@ Komi is not that advanced (very very basic honestly with lots of roundabout meth
 
 
 # PROJECT UPDATES
-Revising Design. Circuitry Updated (Revision 3).
+Revising Design. Circuitry Updated (Revision 4).
 
 # PROJECT TO DO
-1: Create MASTER Code (45%) - MASTER Changed
+1: Create MASTER Code (45%) - MASTER MCU Changed
 
 2: Prepare Edge Impulse Camera
 
@@ -50,7 +52,8 @@ TOOLS USED:
 
 
 CIRCUITRY DIAGRAM
-![FULL CONTROL ASSEMBLY REVISION 3](https://github.com/user-attachments/assets/4aacbd8c-4cd4-45e5-b0bc-bc89469a0235)
+![FULL CONTROL ASSEMBLY REVISION 4](https://github.com/user-attachments/assets/e1606bd2-68a3-4a13-97bf-b90edf791701)
+
 
 
 # Credit and Special Thanks
