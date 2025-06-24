@@ -84,7 +84,7 @@
 
 // CEASE
 bool CEASE = false;
-const int CEASE_PIN; // PLACEHOLDER
+int CEASE_PIN; // PLACEHOLDER
 
 // ESP NOW
 String PREVIOUS_COMMAND = "ERROR";
@@ -95,10 +95,18 @@ String REMOTE_COMMAND = "VOID";
 bool REMOTE_ACTIVE = false;
 bool REMOTE_LOCK = false;
 
+// SERVOS
+int CURRENT_PAN_ANGLE = 0;
+int CURRENT_TILT_ANGLE = 0;
+
+// STEPPERS
+
+// PLACEHOLDER
 
 // TROUBLESHOOTING
 bool STARTUP_CHECK_COMPLETE = false;
 int LOG_NO = 1;
+bool DEBUG_MODE = false;
 
 //  ========================
 //          PRE SETUP:
@@ -119,8 +127,8 @@ int LOG_NO = 1;
 uint8_t SLAVE_ESP_MAC[] = { 0x94, 0x54, 0xC5, 0xB5, 0xC6, 0x8C };
 
 // HEAD ASSEMBLY SERVOS
-Servo HEAD_1; // UP DOWN SERVO
-Servo HEAD_2; // LEFT RIGHT SERVO
+Servo HEAD_PAN; // LEFT RIGHT SERVO
+Servo HEAD_TILT; // UP DOWN SERVO
 
 // DISPLAY EYES
 #define LEFT_SCREEN_WIDTH 128
@@ -144,12 +152,15 @@ LiquidCrystal_I2C STATUS_DISPLAY(0x27, 16,2);
 //  ========================
 
 // I2C
-const int SDA_PIN = 13;
-const int SCL_PIN = 16;
+const int SDA_PIN = 21;
+const int SCL_PIN = 22;
 
 // HEAD ASSEMBLY SERVOS
-const int HEAD_1_PIN = 14; // UP DOWN SERVO
-const int HEAD_2_PIN = 12; // LEFT RIGHT SERVO
+const int PAN_SERVO_PIN = 13; // LEFT RIGHT SERVO
+const int TILT_SERVO_PIN = 12; // UP DOWN SERVO
+
+// TROUBLESHOOTING
+const int TROUBLESHOOTING_PIN = 14; 
 
 //  ========================
 //      LOGGING & ERRORS
@@ -246,7 +257,9 @@ void OnDataRecv(const esp_now_recv_info_t *recvInfo, const uint8_t *incomingData
             REMOTE_COMMAND = COMMAND;
           }
           else {
-            ERR("COMMAND NOT RECOGNIZED: " + COMMAND);
+            if(ADVANCED_COMMAND(COMMAND)) {
+              // PLACEHOLDER
+            }
           }
         }
       }
@@ -449,21 +462,46 @@ void BODY_RIGHT() {
 }
 
 void HEAD_UP() {
-  // PLACEHOLDER
+  if(CURRENT_TILT_ANGLE>=0 || CURRENT_TILT_ANGLE<180) {
+    HEAD_PAN.write(++CURRENT_TILT_ANGLE);
+  }
 }
 
 void HEAD_DOWN() {
-  // PLACEHOLDER
+  if(CURRENT_TILT_ANGLE>0 || CURRENT_TILT_ANGLE<=180) {
+    HEAD_PAN.write(--CURRENT_TILT_ANGLE);
+  }
 }
 
 void HEAD_LEFT() {
-  // PLACEHOLDER
+  if(CURRENT_PAN_ANGLE>0 || CURRENT_PAN_ANGLE<=180) {
+    HEAD_PAN.write(--CURRENT_PAN_ANGLE);
+  }
 }
 
 void HEAD_RIGHT() {
-  // PLACEHOLDER
+  if(CURRENT_PAN_ANGLE>=0 || CURRENT_PAN_ANGLE<180) {
+    HEAD_PAN.write(++CURRENT_PAN_ANGLE);
+  }
 }
 
+void HEAD_PAN_SET(int ANGLE) {
+  if(ANGLE>=0 && ANGLE<=180) {
+    HEAD_PAN.write(ANGLE);
+  }
+  else {
+    ERR("INVALID PAN ANGLE: " + ANGLE);
+  }
+}
+
+void HEAD_TILT_SET(int ANGLE) {
+  if(ANGLE>=0 && ANGLE<=180) {
+    HEAD_TILT.write(ANGLE);
+  }
+  else {
+    ERR("INVALID TILT ANGLE: " + ANGLE);
+  }
+}
 void LEFT_ARM_UP() {
   // PLACEHOLDER
 }
@@ -509,8 +547,27 @@ void ARM_LOWER_RIGHT() {
   // PLACEHOLDER
 }
 
-void PASSIVE_INTELLIGENCE() {
+bool VISUAL(String INPUT) {
+  if(INPUT.equals("PERSON" || INPUT.equals("FACE"))) {
+    if(INPUT.equals("PERSON")) {
+      // GET CLOSER
+    }
+    if(INPUT.equals("FACE")) {
+      // PLACEHOLDER
+    }
+  }
+  else {
+    return false;
+  }
+}
+
+void CAM_FUNCS(String Visual) {
   // PLACEHOLDER
+}
+
+void PASSIVE_INTELLIGENCE() {
+  TRANSMIT("CAM INFO");
+
 }
 
 
@@ -529,6 +586,48 @@ void BATTERY_CHECK() {
       }
     }
   }
+}
+
+bool ADVANCED_COMMAND(String INPUT) {
+
+  // CAM -> Triggers CAM_FUNCS
+
+
+  bool FAIL = false;
+  String TAG = "";
+  String RESULT = "":
+  for(int Count = 0; Count<INPUT.length; Count++) {
+    if(Count<3) {
+      if(INPUT.charAt(Count)==' ') {
+        FAIL = true;
+        break;
+      }
+      else {
+        TAG += INPUT.charAt(Count);
+      }
+    }
+    if(Count==3) {
+      if(INPUT.charAt(Count)!=' ') {
+        FAIL = true;
+      }
+    }
+    else {
+      RESULT += INPUT.charAt(Count);
+    }
+  }
+  if(RESULT == "") {
+    FAIL = true;
+  }
+  if(FAIL) {
+    ERR("INVALID ADVANCED COMMAND: " + INPUT);
+  }
+  else {
+    if(TAG.equals("CAM")) {
+      CAM_FUNCS(RESULT);
+    }
+  }
+
+  return true;
 }
 
 void STARTUP_SEQUENCE() {
@@ -598,7 +697,13 @@ void setup() {
     Serial.println("=================================================================");
     Serial.println("Made By Naim Iftekhar Rahman (24201190) BRAC University");
     Serial.println("=================================================================");
+    delay(1500);
 
+//=================
+    // TROUBLESHOOTING BUTTON
+    if(TROUBLESHOTING_PIN == HIGH) {
+      DEBUG_MODE = true;
+    }
 //=================
 
     // I2C
@@ -669,8 +774,8 @@ void setup() {
 //=================
 
     // SERVOS
-    HEAD_1.attach(HEAD_1_PIN); // UP DOWN SERVO
-    HEAD_2.attach(HEAD_2_PIN); // LEFT RIGHT SERVO
+    HEAD_PAN.attach(PAN_SERVO_PIN); // LEFT RIGHT SERVO
+    HEAD_TILT.attach(TILT_SERVO_PIN); // UP DOWN SERVO
 
 //=================
 
