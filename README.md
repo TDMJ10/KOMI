@@ -60,11 +60,9 @@ CIRCUITRY DIAGRAM
 
 Al Faridul Karim
 
-Naseef Nazrul Islam
-
 Muntasir Mubeen
 
-Respect to their choice of remaining anonimous: Kami, Striker, Duck, Nag
+Keeping them Anonymous: Kami, Striker, Nag
 
 For keeping me motivated to keep working on this
 
