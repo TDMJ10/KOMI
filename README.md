@@ -14,7 +14,7 @@ Komi is not that advanced (very very basic honestly with lots of roundabout meth
 Revising for Revision 5, Seperating display control from the master mcu
 
 # PROJECT TO DO
-1: Create MASTER Code (45%) - MASTER MCU Changed
+1: Create MASTER Code (45%) - Seperating Display Control Components
 
 2: Prepare Edge Impulse Camera
 
@@ -51,7 +51,7 @@ TOOLS USED:
 
 
 
-CIRCUITRY DIAGRAM
+CIRCUITRY DIAGRAM (NOT UPDATED FOR REVISION 5)
 ![FULL CONTROL ASSEMBLY REVISION 4](https://github.com/user-attachments/assets/e1606bd2-68a3-4a13-97bf-b90edf791701)
 
 
