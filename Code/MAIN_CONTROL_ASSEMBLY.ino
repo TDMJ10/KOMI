@@ -23,7 +23,7 @@
  To do:
 ==========
 1: 
-2: Setup i2C with both SSD1306s and 16x2 LCD
+2:
 3: 
 
 
@@ -112,7 +112,6 @@ bool DEBUG_MODE = false;
 //          PRE SETUP:
 //  ========================
 
-
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -130,22 +129,9 @@ uint8_t SLAVE_ESP_MAC[] = { 0x94, 0x54, 0xC5, 0xB5, 0xC6, 0x8C };
 Servo HEAD_PAN; // LEFT RIGHT SERVO
 Servo HEAD_TILT; // UP DOWN SERVO
 
-// DISPLAY EYES
-#define LEFT_SCREEN_WIDTH 128
-#define LEFT_SCREEN_HEIGHT 64
-#define LEFT_OLED_RESET -1
-#define LEFT_SCREEN_ADDRESS 0x3C
-Adafruit_SSD1306 LEFT_EYE(LEFT_SCREEN_WIDTH, LEFT_SCREEN_HEIGHT, &Wire, LEFT_OLED_RESET);
-
-#define RIGHT_SCREEN_WIDTH 128
-#define RIGHT_SCREEN_HEIGHT 64
-#define RIGHT_OLED_RESET -1
-#define RIGHT_SCREEN_ADDRESS 0x3D // SETUP MISSING (PLACEHOLDER)
-Adafruit_SSD1306 RIGHT_EYE(RIGHT_SCREEN_WIDTH, RIGHT_SCREEN_HEIGHT, &Wire, RIGHT_OLED_RESET);
-
-// STATUS DISPLAY
-LiquidCrystal_I2C STATUS_DISPLAY(0x27, 16,2);
-
+// GPIO EXPANDERS
+Adafruit_PCF8574 MOTORS;
+Adafruit_PCF8574 STEPPERS;
 
 //  ========================
 //      PIN DEFINITIONS:
@@ -158,6 +144,19 @@ const int SCL_PIN = 22;
 // HEAD ASSEMBLY SERVOS
 const int PAN_SERVO_PIN = 13; // LEFT RIGHT SERVO
 const int TILT_SERVO_PIN = 12; // UP DOWN SERVO
+
+// BODY ASSEMBLY MOTORS
+const int LEFT_IN1 = 1;
+const int LEFT_IN2 = 2;
+const int LEFT_IN3 = 3;
+const int LEFT_IN4 = 4;
+
+const int RIGHT_IN1 = 5;
+const int RIGHT_IN2 = 6;
+const int RIGHT_IN3 = 7;
+const int RIGHT_IN4 = 8;
+
+
 
 // TROUBLESHOOTING
 const int TROUBLESHOOTING_PIN = 14; 
@@ -274,6 +273,18 @@ void TRANSMIT(String COMMAND) {
   esp_now_send(SLAVE_ESP_MAC, (uint8_t *)COMMAND.c_str(), COMMAND.length() + 1);
   delay(10);
 }
+
+//  ========================
+//      I2C MULTIPLEXING
+//  ========================
+
+void I2C_MULT(uint8_t BUS){
+  Wire.beginTransmission(0x70);  // TCA9548A Address
+  Wire.write(1 << BUS);
+  Wire.endTransmission();
+  Serial.print(BUS);
+}
+
 
 
 //  ========================
@@ -547,6 +558,10 @@ void ARM_LOWER_RIGHT() {
   // PLACEHOLDER
 }
 
+void GET_DISTANCE() {
+  // PLACEHOLDER
+}
+
 bool VISUAL(String INPUT) {
   if(INPUT.equals("PERSON" || INPUT.equals("FACE"))) {
     if(INPUT.equals("PERSON")) {
@@ -562,7 +577,117 @@ bool VISUAL(String INPUT) {
 }
 
 void CAM_FUNCS(String Visual) {
-  // PLACEHOLDER
+  String OBJECT_STR = "";
+  String X_COORD_STR = "";
+  String Y_COORD_STR = "";
+  String WIDTH_STR = "";
+  String HEIGHT_STR = "";
+  bool Object_Found = false;
+  bool X_Coord_Found = false;
+  bool Y_Coord_Found = false;
+  bool Width_Found = false;
+  bool Height_Found = false;
+  int X_COORD;
+  int Y_COORD;
+  int WIDTH;
+  int HEIGHT;
+  int DISTANCE;
+
+  GET_DISTANCE();
+
+  for(int Count = 0; Count<Visual.length; Count++) {
+    if(Visual.charAt(Count)==' ') {
+      if(Object_Found) {
+        if(X_Coord_Found) {
+          if(Y_Coord_Found) {
+            if(Width_Found) {
+              if(Height_Found) {
+              }
+              else {
+                Height_Found = true;
+              }
+            }
+            else {
+              Width_Found = true;
+            }
+          }
+          else {
+            Y_Coord_Found = true;
+          }
+        }
+        else {
+          X_Coord_Found = true;
+        }
+      }
+      else {
+        Object_Found = true;
+      }
+    }
+    else {
+      if(!Object_Found) {
+        OBJECT_STR += Visual.charAt(Count);
+      }
+      else {
+        if(!X_Coord_Found) {
+          X_COORD_STR += Visual.charAt(Count);
+        }
+        else {
+          if(!Y_Coord_Found) {
+            Y_COORD_STR += Visual.charAt(Count);
+          }
+          else {
+            if(!Width_Found) {
+              WIDTH_STR += Visual.charAt(Count);
+            }
+            else {
+              HEIGHT_STR += Visual.charAt(Count);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  X_COORD = X_COORD_STR.toInt();
+  Y_COORD = Y_COORD_STR.toInt();
+  WIDTH = WIDTH_STR.toInt();
+  HEIGHT = HEIGHT_STR.toInt();
+
+  int X_SHIFT;
+  int Y_SHIFT;
+
+  if(X_COORD>48) {
+    X_SHIFT = X_COORD-48;
+  }
+  else {
+    X_SHIFT = 48-X_COORD;
+  }
+  if(Y_COORD>48) {
+    Y_SHIFT = Y_COORD-48;
+  }
+  else {
+    Y_SHIFT = 48-Y_COORD;
+  }
+
+  int X_SHIFT_ANGLE = (int)(atan(X_SHIFT/DISTANCE)*180.0*PI);
+  int Y_SHIFT_ANGLE = (int)(atan(Y_SHIFT/DISTANCE)*180.0*PI);
+
+  if(X_COORD>48) {
+    CURRENT_PAN_ANGLE = CURRENT_PAN_ANGLE - X_SHIFT_ANGLE;
+  }
+  else {
+    CURRENT_PAN_ANGLE = CURRENT_PAN_ANGLE + X_SHIFT_ANGLE;
+  }
+
+  if(Y_COORD>48) {
+    CURRENT_TILT_ANGLE = CURRENT_TILT_ANGLE - Y_SHIFT_ANGLE;
+  }
+  else {
+    CURRENT_TILT_ANGLE = CURRENT_TILT_ANGLE + Y_SHIFT_ANGLE;
+  }
+
+  HEAD_PAN.write(CURRENT_PAN_ANGLE);
+  HEAD_TILT.write(CURRENT_TILT_ANGLE);
 }
 
 void PASSIVE_INTELLIGENCE() {
@@ -676,6 +801,7 @@ void STARTUP_SEQUENCE() {
   Serial.println();
   Serial.println();
   Serial.println();
+  DISP_SEND
 }
 
 
@@ -701,7 +827,7 @@ void setup() {
 
 //=================
     // TROUBLESHOOTING BUTTON
-    if(TROUBLESHOTING_PIN == HIGH) {
+    if(digitalRead(TROUBLESHOTING_PIN) == HIGH) {
       DEBUG_MODE = true;
     }
 //=================
@@ -739,37 +865,30 @@ void setup() {
 
 //=================
 
-    // DISPLAYS
-    if (!LEFT_EYE.begin(SSD1306_SWITCHCAPVCC, LEFT_SCREEN_ADDRESS)) {
-      Serial.println(PART_ERR("LEFT SSD1306"));
-      while (1)
-        ;
-    }
-    delay(100);
-    LEFT_EYE.setCursor(0, 0);
-    LEFT_EYE.clearDisplay();
-    PRINT_LOG("LEFT EYE SSD1306 READY");
-
+  // PGIO EXPANDERS
+  if (!MOTORS.begin(0x20, &Wire)) {
+    Serial.println(PART_ERR("MOTORS PCF"));
+    while (1);
+  }
+  for (uint8_t PIN=0; PIN<8; PIN++) {
+    MOTORS.pinMode(PIN, OUTPUT);
+    MOTORS.digitalWrite(PIN, LOW);
     delay(10);
-    if (!RIGHT_EYE.begin(SSD1306_SWITCHCAPVCC, RIGHT_SCREEN_ADDRESS)) {
-      Serial.println(PART_ERR("RIGHT SSD1306"));
-      while (1)
-        ;
-    }
-    delay(100);
-    RIGHT_EYE.setCursor(0, 0);
-    RIGHT_EYE.clearDisplay();
-    PRINT_LOG("RIGHT EYE SSD1306 READY");
+  }
+  PRINT_LOG("MOTORS READY");
+  delay(10);
 
+  if (!STEPPERS.begin(0x20, &Wire)) {
+    Serial.println(PART_ERR("STEPPERS PCF"));
+    while (1);
+  }
+  for (uint8_t PIN=0; PIN<8; PIN++) {
+    STEPPERS.pinMode(PIN, OUTPUT);
+    STEPPERS.digitalWrite(PIN, LOW);
     delay(10);
-    STATUS_DISPLAY.begin();
-    PRINT_LOG("STATUS DISPLAY LCD READY");
-    STATUS_DISPLAY.backlight();
-    STATUS_DISPLAY.setCursor(0, 0);
-    STATUS_DISPLAY.print("PROJECT KOMI");
-    STATUS_DISPLAY.setCursor(0, 1);
-    STATUS_DISPLAY.print("By Naim Iftekhar");
-    delay(1000);
+  }
+  PRINT_LOG("STEPPERS READY");
+  delay(10);
 
 //=================
 
