@@ -39,7 +39,7 @@ Revising for Revision 5, Seperating display control from the master mcu
 
 > Add a speaker system to Komi so that its controller can speak through Komi
 
-# PROJECT RECREATION INFORMATION
+# PROJECT RECREATION INFORMATION (NOT UPDATED FOR REVISION 5)
 PARTS REQUIRED: (In-depth parts list inside files)
 
 KOMI:
