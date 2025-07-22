@@ -11,7 +11,7 @@ Komi is not that advanced (very very basic honestly with lots of roundabout meth
 
 
 # PROJECT UPDATES
-Revising for Revision 5, Seperating display control from the master mcu
+Finished Updating Revision 5 Circuit Diagram - Added optional functional arms and seperated display control from MASTER MCU
 
 # PROJECT TO DO
 1: Create MASTER Code (45%) - Seperating Display Control Components
@@ -51,8 +51,9 @@ TOOLS USED:
 
 
 
-CIRCUITRY DIAGRAM (NOT UPDATED FOR REVISION 5)
-![FULL CONTROL ASSEMBLY REVISION 4](https://github.com/user-attachments/assets/e1606bd2-68a3-4a13-97bf-b90edf791701)
+CIRCUITRY DIAGRAMS (NOT UPDATED FOR REVISION 5)
+<img width="3000" height="1834" alt="FULL BODY ASSEMBLY REVISION 5" src="https://github.com/user-attachments/assets/934b4faa-6865-49ee-a8b3-8895fe9c56db" />
+
 
 
 
